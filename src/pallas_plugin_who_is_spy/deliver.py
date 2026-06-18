@@ -12,8 +12,7 @@ from nonebot.adapters.onebot.v11.exception import (
     NetworkError,
 )
 
-from packages.bot_status.config import MailConfig, get_bot_status_config
-from packages.bot_status.utils import send_mail
+from pallas.api.utils import MailConfig, build_mail_config, send_mail
 
 from .config import get_spy_config
 
@@ -35,14 +34,7 @@ def mail_config_for(recipient: str) -> MailConfig | None:
     cfg = get_spy_config()
     if not cfg.spy_email_fallback:
         return None
-    status = get_bot_status_config()
-    mail = MailConfig(
-        user=status.bot_status_smtp_user,
-        password=status.bot_status_smtp_password,
-        server=status.bot_status_smtp_server,
-        port=status.bot_status_smtp_port,
-        notice_email=recipient,
-    )
+    mail = build_mail_config(recipient)
     if not mail.check_params():
         return None
     return mail
