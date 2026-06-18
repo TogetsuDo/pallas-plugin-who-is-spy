@@ -9,7 +9,9 @@ def open_room_message(*, user_id: int, min_players: int) -> MessageSegment:
     return (
         MessageSegment.text("房已开，房主 ")
         + MessageSegment.at(user_id)
-        + MessageSegment.text(f"。想玩发「{CMD_JOIN}」，至少 {min_players} 人时房主发「{CMD_START}」开局。")
+        + MessageSegment.text(
+            f"。想玩发「{CMD_JOIN}」，至少 {min_players} 人时房主发「{CMD_START}」开局。"
+        )
     )
 
 

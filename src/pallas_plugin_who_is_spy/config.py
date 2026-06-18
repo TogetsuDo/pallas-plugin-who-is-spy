@@ -8,7 +8,9 @@ from src.console.webui import install_hot_reload_config, plugin_config_proxy
 class Config(BaseModel, extra="ignore"):
     spy_min_players: int = Field(default=4, ge=3, le=20, description="最少开局人数")
     spy_max_players: int = Field(default=12, ge=4, le=30, description="房间人数上限")
-    spy_default_undercovers: int = Field(default=1, ge=1, le=3, description="默认卧底人数")
+    spy_default_undercovers: int = Field(
+        default=1, ge=1, le=3, description="默认卧底人数"
+    )
     spy_default_blanks: int = Field(
         default=0,
         ge=0,

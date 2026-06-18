@@ -6,7 +6,11 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Literal
 
 from nonebot import logger
-from nonebot.adapters.onebot.v11.exception import ActionFailed, ApiNotAvailable, NetworkError
+from nonebot.adapters.onebot.v11.exception import (
+    ActionFailed,
+    ApiNotAvailable,
+    NetworkError,
+)
 
 from src.plugins.bot_status.config import MailConfig, get_bot_status_config
 from src.plugins.bot_status.utils import send_mail
@@ -50,7 +54,9 @@ class DeliveryOutcome:
     ok: bool
 
 
-async def send_private(bot: Bot, user_id: int, message: str, *, group_id: int | None = None) -> bool:
+async def send_private(
+    bot: Bot, user_id: int, message: str, *, group_id: int | None = None
+) -> bool:
     payload: dict = {"user_id": int(user_id), "message": message}
     if group_id is not None:
         payload["group_id"] = int(group_id)

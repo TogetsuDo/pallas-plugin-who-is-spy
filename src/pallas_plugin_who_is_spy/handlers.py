@@ -17,7 +17,16 @@ from src.platform.multi_bot.group import (
 from src.platform.shard.coord.spy_activity import SPY_OWNED_PLUGIN
 
 from .args import parse_start_args
-from .commands import CMD_END, CMD_JOIN, CMD_OPEN, CMD_QUIT, CMD_START, CMD_STATUS, CMD_VOTE, is_spy_group_command
+from .commands import (
+    CMD_END,
+    CMD_JOIN,
+    CMD_OPEN,
+    CMD_QUIT,
+    CMD_START,
+    CMD_STATUS,
+    CMD_VOTE,
+    is_spy_group_command,
+)
 from .config import get_spy_config
 from .copy import (
     delivery_report,
@@ -116,7 +125,9 @@ cmd_open = on_command(
 )
 cmd_join = on_command(CMD_JOIN, block=True, priority=10, permission=JOIN_PERM)
 cmd_quit = on_command(CMD_QUIT, block=True, priority=10, permission=JOIN_PERM)
-cmd_start = on_command(CMD_START, aliases={"牛牛开始"}, block=True, priority=10, permission=START_PERM)
+cmd_start = on_command(
+    CMD_START, aliases={"牛牛开始"}, block=True, priority=10, permission=START_PERM
+)
 cmd_vote = on_command(CMD_VOTE, block=True, priority=10, permission=START_PERM)
 cmd_status = on_command(CMD_STATUS, block=True, priority=10, permission=STATUS_PERM)
 cmd_end = on_command(CMD_END, block=True, priority=5, permission=END_PERM)
@@ -148,7 +159,9 @@ async def claim_group_event(event: GroupMessageEvent) -> bool:
     return True
 
 
-async def can_close_spy_room(bot: Bot, event: GroupMessageEvent, game: Game | None) -> bool:
+async def can_close_spy_room(
+    bot: Bot, event: GroupMessageEvent, game: Game | None
+) -> bool:
     user_id = event.user_id
     if game is not None and user_id == game.owner_id:
         return True
@@ -187,14 +200,20 @@ async def handle_open(bot: Bot, event: GroupMessageEvent) -> None:
     persist_prep(game)
 
     if needs_group_host_bot_gate():
-        await bind_group_owned_gate(PLUGIN_KEY, gid, int(bot.self_id), gate_sec=SPY_HOST_GATE_SEC)
+        await bind_group_owned_gate(
+            PLUGIN_KEY, gid, int(bot.self_id), gate_sec=SPY_HOST_GATE_SEC
+        )
     mark_spy_prep_room(gid, owner_id=user_id, host_bot_id=int(bot.self_id))
     bot_id = int(bot.self_id)
     if await try_acquire_group_broadcast_slot(PLUGIN_KEY, gid, ttl_sec=3.0):
-        await cmd_open.finish(open_room_message(user_id=user_id, min_players=cfg.spy_min_players))
+        await cmd_open.finish(
+            open_room_message(user_id=user_id, min_players=cfg.spy_min_players)
+        )
         return
     if await is_group_owned_gate_holder(PLUGIN_KEY, gid, bot_id):
-        await cmd_open.finish(open_room_message(user_id=user_id, min_players=cfg.spy_min_players))
+        await cmd_open.finish(
+            open_room_message(user_id=user_id, min_players=cfg.spy_min_players)
+        )
 
 
 @cmd_join.handle()
@@ -243,7 +262,9 @@ async def handle_quit(event: GroupMessageEvent) -> None:
 
 
 @cmd_start.handle()
-async def handle_start(bot: Bot, event: GroupMessageEvent, arg: Message = CommandArg()) -> None:  # noqa: B008
+async def handle_start(
+    bot: Bot, event: GroupMessageEvent, arg: Message = CommandArg()
+) -> None:  # noqa: B008
     if not await claim_group_event(event):
         return
 
@@ -259,7 +280,9 @@ async def handle_start(bot: Bot, event: GroupMessageEvent, arg: Message = Comman
         await cmd_start.finish(err_already_dealt())
     player_count = len(game.players)
     if player_count < cfg.spy_min_players:
-        await cmd_start.finish(err_not_enough_players(cfg.spy_min_players, player_count))
+        await cmd_start.finish(
+            err_not_enough_players(cfg.spy_min_players, player_count)
+        )
     if not WORD_BANK:
         await cmd_start.finish(err_empty_word_bank())
 
@@ -490,7 +513,10 @@ async def handle_pm_vote(bot: Bot, event: PrivateMessageEvent) -> None:
             await pm_numeric_vote.finish(pm_already_voted())
         if not is_voting_phase(game):
             await pm_numeric_vote.finish(pm_cannot_vote_yet())
-        if target_user_id not in game.players or not game.players[target_user_id].is_alive:
+        if (
+            target_user_id not in game.players
+            or not game.players[target_user_id].is_alive
+        ):
             await pm_numeric_vote.finish(pm_target_gone())
         game.votes[user_id] = target_user_id
         persist_game(game)

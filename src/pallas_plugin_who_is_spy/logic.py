@@ -4,7 +4,10 @@ import asyncio
 import random
 from typing import TYPE_CHECKING
 
-from src.platform.multi_bot.dedup import needs_group_host_bot_gate, release_group_owned_gate_sync
+from src.platform.multi_bot.dedup import (
+    needs_group_host_bot_gate,
+    release_group_owned_gate_sync,
+)
 
 from .config import get_spy_config
 from .coord_store import clear_game_snapshot, write_game_snapshot
@@ -32,7 +35,12 @@ from .copy import (
 from .deliver import deliver_player_message
 from .group_lock import clear_spy_room_session
 from .models import player_role_label
-from .store import WORD_BANK, load_recent_word_keys, record_recent_word_pair, word_pair_key
+from .store import (
+    WORD_BANK,
+    load_recent_word_keys,
+    record_recent_word_pair,
+    word_pair_key,
+)
 
 if TYPE_CHECKING:
     from nonebot.adapters.onebot.v11 import Bot
@@ -133,8 +141,14 @@ async def enter_voting_phase(bot: Bot, game: Game, *, auto_triggered: bool) -> s
 def pick_words(group_id: int, *, avoid_recent: int) -> tuple[str, str]:
     if not WORD_BANK:
         raise RuntimeError("词库为空，请检查 data/who_is_spy/undercover_words.json")
-    recent = load_recent_word_keys(group_id, limit=avoid_recent) if avoid_recent > 0 else set()
-    candidates = [pair for pair in WORD_BANK if word_pair_key(pair[0], pair[1]) not in recent]
+    recent = (
+        load_recent_word_keys(group_id, limit=avoid_recent)
+        if avoid_recent > 0
+        else set()
+    )
+    candidates = [
+        pair for pair in WORD_BANK if word_pair_key(pair[0], pair[1]) not in recent
+    ]
     if not candidates:
         candidates = WORD_BANK
     pair = random.choice(candidates)
@@ -156,7 +170,9 @@ def assign_roles(
         player.is_undercover = False
         player.is_blank = False
 
-    civilian_word, undercover_word = pick_words(game.group_id, avoid_recent=avoid_recent)
+    civilian_word, undercover_word = pick_words(
+        game.group_id, avoid_recent=avoid_recent
+    )
     if random.random() < 0.5:
         civilian_word, undercover_word = undercover_word, civilian_word
 
@@ -182,7 +198,9 @@ def player_role_word(game: Game, player) -> tuple[str, str]:
     return "平民", game.word_civilian
 
 
-async def deliver_role_words(bot: Bot, game: Game, *, show_role: bool) -> tuple[list[str], list[str]]:
+async def deliver_role_words(
+    bot: Bot, game: Game, *, show_role: bool
+) -> tuple[list[str], list[str]]:
     email_names: list[str] = []
     failed_names: list[str] = []
     for player in game.players.values():
@@ -261,7 +279,9 @@ async def settle_and_announce(bot: Bot, game: Game) -> None:
         sync_active_game(game)
         await bot.send_group_msg(
             group_id=group_id,
-            message=round_start(round_no=game.round_no, numbered=render_alive_numbered(game)),
+            message=round_start(
+                round_no=game.round_no, numbered=render_alive_numbered(game)
+            ),
         )
         return
 
@@ -290,7 +310,9 @@ async def settle_and_announce(bot: Bot, game: Game) -> None:
         sync_active_game(game)
         await bot.send_group_msg(
             group_id=group_id,
-            message=round_start(round_no=game.round_no, numbered=render_alive_numbered(game)),
+            message=round_start(
+                round_no=game.round_no, numbered=render_alive_numbered(game)
+            ),
         )
         return
 
@@ -300,8 +322,12 @@ async def settle_and_announce(bot: Bot, game: Game) -> None:
     role = player_role_label(eliminated_player)
     game_over = game.is_game_over()
     if game_over:
-        undercover_names = [player.nickname for player in game.players.values() if player.is_undercover]
-        blank_names = [player.nickname for player in game.players.values() if player.is_blank]
+        undercover_names = [
+            player.nickname for player in game.players.values() if player.is_undercover
+        ]
+        blank_names = [
+            player.nickname for player in game.players.values() if player.is_blank
+        ]
         summary = game_win_summary(
             headline=game_over,
             civilian_word=game.word_civilian,
@@ -343,5 +369,7 @@ async def settle_and_announce(bot: Bot, game: Game) -> None:
     sync_active_game(game)
     await bot.send_group_msg(
         group_id=group_id,
-        message=round_start(round_no=game.round_no, numbered=render_alive_numbered(game)),
+        message=round_start(
+            round_no=game.round_no, numbered=render_alive_numbered(game)
+        ),
     )
