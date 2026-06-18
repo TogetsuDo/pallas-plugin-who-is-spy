@@ -2,12 +2,12 @@ from __future__ import annotations
 
 from typing import Literal
 
-from src.platform.multi_bot.dedup import (
+from pallas.api.platform import (
     begin_group_exclusive_activity,
     needs_group_host_bot_gate,
     release_group_owned_gate_sync,
 )
-from src.platform.multi_bot.group import is_group_owned_gate_holder
+from pallas.api.platform import is_group_owned_gate_holder
 
 from .coord_store import (
     GAME_SNAPSHOT_KEY,

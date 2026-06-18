@@ -4,7 +4,7 @@ import asyncio
 import random
 from typing import TYPE_CHECKING
 
-from src.platform.multi_bot.dedup import (
+from pallas.api.platform import (
     needs_group_host_bot_gate,
     release_group_owned_gate_sync,
 )

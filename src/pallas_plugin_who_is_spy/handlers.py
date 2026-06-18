@@ -5,16 +5,16 @@ from nonebot.adapters.onebot.v11.permission import GROUP, PRIVATE
 from nonebot.params import CommandArg
 from nonebot.rule import Rule
 
-from src.features.cmd_perm import group_message_permission_for_command
-from src.platform.multi_bot.at_targets import message_at_fleet_bot
-from src.platform.multi_bot.group import (
+from pallas.api.perm import group_message_permission_for_command
+from pallas.api.platform import message_at_fleet_bot
+from pallas.api.platform import (
     bind_group_owned_gate,
     claim_group_message_event,
     is_group_owned_gate_holder,
     needs_group_host_bot_gate,
     try_acquire_group_broadcast_slot,
 )
-from src.platform.shard.coord.spy_activity import SPY_OWNED_PLUGIN
+from pallas.core.platform.shard.coord.spy_activity import SPY_OWNED_PLUGIN
 
 from .args import parse_start_args
 from .commands import (

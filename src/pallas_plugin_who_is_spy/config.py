@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pydantic import BaseModel, Field
 
-from src.console.webui import install_hot_reload_config, plugin_config_proxy
+from pallas.api.config import install_hot_reload_config, plugin_config_proxy
 
 
 class Config(BaseModel, extra="ignore"):

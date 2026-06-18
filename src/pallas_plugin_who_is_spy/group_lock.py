@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from src.platform.shard.coord.spy_activity import (
+from pallas.core.platform.shard.coord.spy_activity import (
     SPY_ACTIVITY_LOCK,
     clear_spy_room_session,
     end_spy_room_lock,

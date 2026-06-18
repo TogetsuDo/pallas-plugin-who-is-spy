@@ -1,11 +1,11 @@
 from nonebot.plugin import PluginMetadata
 
-from src.features.cmd_perm.metadata_defaults import (
+from pallas.api.metadata import (
     PLUGIN_EXTRA_VERSION,
     PLUGIN_HOMEPAGE,
     PLUGIN_MENU_TEMPLATE,
 )
-from src.features.cmd_perm.metadata_text import (
+from pallas.api.metadata import (
     SCENE_GROUP,
     SCENE_PRIVATE,
     join_usage,

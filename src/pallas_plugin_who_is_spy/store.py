@@ -6,7 +6,7 @@ from pathlib import Path
 
 from nonebot import logger
 
-from src.foundation.paths import plugin_data_dir, resource_dir
+from pallas.api.paths import plugin_data_dir, resource_dir
 
 DEFAULT_WORD_FILE = resource_dir("who_is_spy") / "undercover_words.json"
 DATA_DIR = plugin_data_dir("who_is_spy")

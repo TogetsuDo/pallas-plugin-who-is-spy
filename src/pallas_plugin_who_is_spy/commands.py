@@ -1,6 +1,6 @@
 """群内口令。"""
 
-from src.foundation.command_prefix import matches_command_prefix
+from pallas.api.config import matches_command_prefix
 
 CMD_OPEN = "牛牛卧底"
 CMD_JOIN = "牛牛加入"

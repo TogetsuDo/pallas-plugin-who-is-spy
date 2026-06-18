@@ -12,8 +12,8 @@ from nonebot.adapters.onebot.v11.exception import (
     NetworkError,
 )
 
-from src.plugins.bot_status.config import MailConfig, get_bot_status_config
-from src.plugins.bot_status.utils import send_mail
+from packages.bot_status.config import MailConfig, get_bot_status_config
+from packages.bot_status.utils import send_mail
 
 from .config import get_spy_config
 
