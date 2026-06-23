@@ -11,6 +11,7 @@ from pallas.api.metadata import (
     join_usage,
     usage_line,
 )
+from pallas.product.llm.knowledge.declare import knowledge_source_row
 
 from .commands import (
     CMD_END,
@@ -182,6 +183,40 @@ __plugin_meta__ = PluginMetadata(
                     "示例：列表为「1. 甲 2. 乙」时，私聊「1」投甲，「0」弃权。"
                 ),
             },
+        ],
+        "knowledge_sources": [
+            knowledge_source_row(
+                source_id="who_is_spy.faq",
+                title="牛牛卧底说明",
+                description="谁是卧底玩法与口令",
+                chunks=[
+                    {
+                        "title": "开房与开局",
+                        "content": (
+                            "房主发「牛牛卧底」或「牛牛谁是卧底」开房，其他人「牛牛加入」/「牛牛退出」；"
+                            "满员后房主「牛牛发身份」或「牛牛开始」发词牌并开始。"
+                        ),
+                        "keywords": "卧底,开房,加入,开始,发身份,谁是卧底",
+                    },
+                    {
+                        "title": "述词与投票",
+                        "content": (
+                            "讨论阶段 @牛牛 并附带描述记为述词；"
+                            "全员述完后默认自动投票，也可房主发「牛牛投票」提前开投；"
+                            "投票阶段私聊回复数字序次，0 为弃权。"
+                        ),
+                        "keywords": "述词,投票,@牛牛,私聊,弃权",
+                    },
+                    {
+                        "title": "局势与结束",
+                        "content": (
+                            "「牛牛局势」查看当前轮次与名单；"
+                            "房主或群管可发「牛牛结束」结束对局。"
+                        ),
+                        "keywords": "局势,结束,状态,房间",
+                    },
+                ],
+            ),
         ],
     },
 )
