@@ -5,6 +5,9 @@
 
 ## [Unreleased]
 
+## [4.0.8] - 2026-06-27
+- docs(readme): 「怎么使用」口令统一加行内代码标记
+
 ## [4.0.7] - 2026-06-24
 - feat(knowledge): 声明 knowledge_sources FAQ 供 LLM 注入
 
