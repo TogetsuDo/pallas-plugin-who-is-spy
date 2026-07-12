@@ -41,12 +41,20 @@ def role_word_private(*, role: str, word: str, show_role: bool) -> str:
     return f"你的词：{word}\n别在群里说。"
 
 
-def vote_invite_private(*, numbered: str) -> str:
-    return f"{CMD_VOTE}\n私聊回复序号，0 弃权。\n\n{numbered}"
+def vote_invite_private(*, numbered: str, recap: str = "") -> str:
+    lines = [CMD_VOTE, "私聊回复序号，0 弃权。"]
+    if recap:
+        lines.extend(["", recap])
+    lines.extend(["", numbered])
+    return "\n".join(lines)
 
 
-def vote_invite_email(*, numbered: str) -> str:
-    return f"{CMD_VOTE}\n私聊回复序号，0 弃权。\n私聊没收到？看邮箱。\n\n{numbered}"
+def vote_invite_email(*, numbered: str, recap: str = "") -> str:
+    lines = [CMD_VOTE, "私聊回复序号，0 弃权。", "私聊没收到？看邮箱。"]
+    if recap:
+        lines.extend(["", recap])
+    lines.extend(["", numbered])
+    return "\n".join(lines)
 
 
 def role_word_email(*, role: str, word: str, show_role: bool) -> str:

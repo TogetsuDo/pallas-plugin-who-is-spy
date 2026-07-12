@@ -128,7 +128,7 @@ async def enter_voting_phase(bot: Bot, game: Game, *, auto_triggered: bool) -> s
     async with game.lock:
         if is_voting_phase(game):
             return speak_round_to_vote(auto_triggered=auto_triggered)
-        email_names, failed_names = await pm_invite_for_voting(bot, game)
+        email_names, failed_names = await pm_invite_for_voting(bot, game, recap=recap)
         sync_active_game(game)
     extra = delivery_report(email_users=email_names, failed_users=failed_names)
     return vote_phase_group_message(
@@ -222,10 +222,12 @@ async def deliver_role_words(
     return email_names, failed_names
 
 
-async def pm_invite_for_voting(bot: Bot, game: Game) -> tuple[list[str], list[str]]:
+async def pm_invite_for_voting(
+    bot: Bot, game: Game, *, recap: str = ""
+) -> tuple[list[str], list[str]]:
     numbered = render_alive_numbered(game)
-    private_text = vote_invite_private(numbered=numbered)
-    email_body = vote_invite_email(numbered=numbered)
+    private_text = vote_invite_private(numbered=numbered, recap=recap)
+    email_body = vote_invite_email(numbered=numbered, recap=recap)
 
     game.expecting_pm_vote = set(game.alive_ids())
     game.vote_round_tag = game.round_no

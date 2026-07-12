@@ -254,7 +254,7 @@ wheels = [
 
 [[package]]
 name = "pallas-plugin-who-is-spy"
-version = "4.0.9"
+version = "4.0.10"
 source = { editable = "." }
 dependencies = [
     { name = "nonebot-adapter-onebot" },
