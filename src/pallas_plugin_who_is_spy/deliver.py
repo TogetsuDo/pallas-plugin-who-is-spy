@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 DeliveryChannel = Literal["private", "temp", "email", "failed"]
 _SEND_ERRORS = (ActionFailed, ApiNotAvailable, NetworkError)
 
-# NapCat 对未加好友的群临时会话常不稳定；按 bot 缓存探测结果。
+# NapCat 对未加好友的群临时会话常不稳定；SnowLuma 无法主动向非好友发私聊，须玩家先私聊牛牛。
 _temp_session_ok: dict[int, bool | None] = {}
 
 
@@ -98,7 +98,7 @@ async def deliver_player_message(
             return DeliveryOutcome("temp", True)
         _temp_session_ok[bot_id] = False
         logger.info(
-            "who_is_spy: bot {} temp session unavailable (NapCat/协议常不支持未加好友临时会话)，将尝试 QQ 邮箱",
+            "who_is_spy: bot {} temp session unavailable（NapCat 临时会话或 SnowLuma 非好友私聊常不可用），将尝试 QQ 邮箱",
             bot_id,
         )
 
