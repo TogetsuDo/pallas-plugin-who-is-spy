@@ -11,7 +11,7 @@ def open_room_message(*, user_id: int, min_players: int) -> MessageSegment:
         + MessageSegment.at(user_id)
         + MessageSegment.text(
             f"。想玩发「{CMD_JOIN}」，至少 {min_players} 人时房主发「{CMD_START}」开局。"
-            "非好友请先私聊牛牛任意消息一次（SnowLuma 协议端须先发起私聊，牛牛才能回信）。"
+            "非好友请先私聊牛牛任意消息一次，以免收不到词/投票。"
         )
     )
 
